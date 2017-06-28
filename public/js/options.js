@@ -26,25 +26,41 @@ $(function () {
   $.ajax({
    url: '/api/hotels',
    method: 'GET'
- }).then((hotelsFromServer)=>{
-   hotelsFromServer.forEach(makeOption, $hotelSelect);
-   attractionsModule.loadEnhancedAttractions('hotels', hotelsFromServer);
- }).catch((err)=>{
-   console.log(err);
+    }).then((hotelsFromServer) => {
+      hotelsFromServer.forEach(makeOption, $hotelSelect);
+      attractionsModule.loadEnhancedAttractions('hotels', hotelsFromServer);
+    }).catch((err) => {
+      console.log(err);
  });
 
+  $.ajax({
+   url: '/api/restaurants',
+   method: 'GET'
+    }).then((restaurantsFromServer) => {
+      restaurantsFromServer.forEach(makeOption, $restaurantSelect);
+      attractionsModule.loadEnhancedAttractions('restaurants', restaurantsFromServer);
+    }).catch((err) => {
+      console.log(err);
+      //console.error.bind(console)
+ });
 
-    // make all the option tags (second arg of `forEach` is a `this` binding)
-    hotels.forEach(makeOption, $hotelSelect);
-    restaurants.forEach(makeOption, $restaurantSelect);
-    activities.forEach(makeOption, $activitySelect);
+  $.ajax({
+   url: '/api/activities',
+   method: 'GET'
+    }).then((activitiesFromServer) => {
+      activitiesFromServer.forEach(makeOption, $activitySelect);
+      attractionsModule.loadEnhancedAttractions('activities', activitiesFromServer);
+    }).catch((err) => {
+      console.log(err);
+ });
+
 
     // Once you've made AJAX calls to retrieve this information,
     // call attractions.loadEnhancedAttractions in the fashion
     // exampled below in order to integrate it.
 
-    attractionsModule.loadEnhancedAttractions('restaurants', restaurants);
-    attractionsModule.loadEnhancedAttractions('activities', activities);
+
+
 
     function makeOption(databaseAttraction) {
         var $option = $('<option></option>') // makes a new option tag

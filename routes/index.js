@@ -19,7 +19,7 @@ router.get('/api/restaurants', function(req, res, next){
     return res.json(restaurants)
   }).catch(next)
 
-})
+});
 
 router.get('/api/activities', function(req, res, next){
 
@@ -27,24 +27,10 @@ router.get('/api/activities', function(req, res, next){
     return res.json(activities)
   }).catch(next)
 
-})
-
+});
 
 router.get('/', function(req, res, next) {
-
-  Promise.all([
-    //Hotel.findAll(),
-    Restaurant.findAll(),
-    Activity.findAll()
-  ])
-  .spread(function( dbRestaurants, dbActivities) {
-    res.render('index', {
-    //  templateHotels: dbHotels,
-      templateRestaurants: dbRestaurants,
-      templateActivities: dbActivities
-    });
-  })
-  .catch(next);
+    res.render('index');
 });
 
 
