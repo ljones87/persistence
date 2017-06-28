@@ -3,7 +3,9 @@ var router = require('express').Router();
 var Hotel = require('../models').Hotel;
 var Restaurant = require('../models').Restaurant;
 var Activity = require('../models').Activity;
+var daysRouter = require('./days');
 
+router.use('/api/days', daysRouter);
 
 router.get('/api/hotels', function(req, res, next){
 

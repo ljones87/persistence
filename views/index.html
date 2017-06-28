@@ -81,12 +81,5 @@
     </div>
   </div>
 </div>
-<!-- You are going to want to remove this entire script tag and replace it with AJAX requests. `options.js` is a great place to look for that. Do note that `options.js` loading will be asynchronous now -->
-<!-- How are requests currently being made? When we are looking for the index.html, it is rendered from our server and given a couple of objects, `templateHotels` is one of them -->
-<script>
 
-   var hotels = [];
-   var restaurants = {{ templateRestaurants | dump | safe }};
-   var activities = {{ templateActivities | dump | safe }};
-</script>
 {% endblock %}
