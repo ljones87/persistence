@@ -6,30 +6,29 @@ var Activity = require('../models').Activity;
 var Day = require('../models').Day;
 
 
-router.post('/:id/hotel/',function(req, res, next) {
+router.post('/:id/', function(req, res, next) {
+   Day.findOrCreate({
+     where: {
+       number: req.params.id
+     }
+   })
+   .then(day => {
+     console.log(day)
+     res.json(req.params.id);
+   })
+});
+
+router.post('/:id/hotel/', function(req, res, next) {
 
 });
-router.post('/:id/restaurants/',function(req, res, next) {
+router.post('/:id/restaurants/', function(req, res, next) {
 
 });
-router.post('/:id/activities/',function(req, res, next) {
+router.post('/:id/activities/', function(req, res, next) {
 
 });
 //one specific day
-router.get('/:id/',function(req, res, next) {
-
-  Day.destroy({where:{
-    id: req.params.id
-  },
-  returning: true
-  })
-    .then((day)=>{
-      res.json(day);
-    }).catch(next);
-
-});
-//delete day
-router.delete('/:id/',function(req, res, next) {
+router.get('/:id/', function(req, res, next) {
 
   Day.findOne({where:{
     id: req.params.id
@@ -39,6 +38,20 @@ router.delete('/:id/',function(req, res, next) {
     }).catch(next);
 
 });
+//delete day
+
+router.delete('/:id/',function(req, res, next) {
+
+  Day.destroy({where:{
+    id: req.params.id
+  },
+  returning: true
+  })
+    .then((day)=>{
+      res.json(day);
+    }).catch(next);
+});
+
 
 router.get('/', function(req, res, next) {
   Day.findAll().then((days)=>{

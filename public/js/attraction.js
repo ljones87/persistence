@@ -56,7 +56,7 @@ var attractionModule = (function () {
   Attraction.prototype.show = function () {
     // itinerary
     switch (this.type) {
-      case 'hotel': $hotel.append(this.$itineraryItem); break;
+      case 'hotel': $hotel.append(this.$itineraryItem); console.log(this.$itineraryItem); break;
       case 'restaurant': $restaurants.append(this.$itineraryItem); break;
       case 'activity': $activities.append(this.$itineraryItem); break;
       default: console.error('bad type:', this);

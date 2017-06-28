@@ -13,4 +13,13 @@ $(function(){
   // }).catch((err)=>{
   //   console.log(err);
   // });
+  // $.ajax({
+  //   url: '/api/days',
+  //   method: 'GET'
+  // })
+  // .then((dayFromServer) =>{
+
+  // })
+  // .catch(console.error.bind(console));
+
 });
