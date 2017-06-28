@@ -39,7 +39,9 @@ var tripModule = (function () {
   }
 
  // ~~~~~~~~~~~~~~~~~~~~~~~
-    // before calling `addDay` or `deleteCurrentDay` that update the frontend (the UI), we need to make sure that it happened successfully on the server
+    // before calling `addDay` or `deleteCurrentDay` that update the
+    //frontend (the UI), we need to make sure that it happened
+    //successfully on the server
   // ~~~~~~~~~~~~~~~~~~~~~~~
   $(function () {
     $addButton.on('click', addDay);
@@ -53,21 +55,26 @@ var tripModule = (function () {
   // ~~~~~~~~~~~~~~~~~~~~~~~
   function addDay () {
     if (this && this.blur) this.blur(); // removes focus box from buttons
-    var newDay = dayModule.create({ number: days.length + 1 }); // dayModule
+  var newDay = dayModule.create({ number: days.length + 1 });
+  var serverDay; // dayModule
+  var dude = this;
     $.ajax({
       url: `/api/days/${newDay.number}`,
       method: 'POST'
     })
     .then((dayFromServer) => {
-       //console.log(dayFromServer)
+      days.push(newDay);
+      if (days.length === 1) {
+        currentDay = newDay;
+      }
+      console.log("gabe: ",newDay)
+      switchTo(newDay);
+       newDay = dayFromServer;
+       console.log("database: ",dayFromServer)
     })
     .catch(console.error.bind(console));
 
-    days.push(newDay);
-    if (days.length === 1) {
-      currentDay = newDay;
-    }
-    switchTo(newDay);
+
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~
@@ -98,12 +105,18 @@ var tripModule = (function () {
          method: 'GET'
       })
       .then((days) => {
-        console.log(days);
+
+      //  $(days);
+      //  $(days)
+        console.log("all the days ",days);
       })
+      //console.log(addDay)
+      //console.log($(addDay))
       // ~~~~~~~~~~~~~~~~~~~~~~~
-        //If we are trying to load existing Days, then let's make a request to the server for the day. Remember this is async. For each day we get back what do we need to do to it?
+        //If we are trying to load existing Days, then let's make a request to the server for the day.
+        //Remember this is async. For each day we get back what do we need to do to it?
       // ~~~~~~~~~~~~~~~~~~~~~~~
-      $(addDay);
+      $(addDay)
     },
 
     switchTo: switchTo,

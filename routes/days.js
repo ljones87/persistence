@@ -13,8 +13,8 @@ router.post('/:id/', function(req, res, next) {
      }
    })
    .then(day => {
-     console.log(day)
-     res.json(req.params.id);
+    // console.log(day)
+     res.json(day[0]);
    })
 });
 
