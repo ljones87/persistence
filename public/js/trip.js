@@ -44,7 +44,18 @@ var tripModule = (function () {
     //successfully on the server
   // ~~~~~~~~~~~~~~~~~~~~~~~
   $(function () {
-    $addButton.on('click', addDay);
+
+    $addButton.on('click', function() {
+      $.ajax({
+        url: `/api/days/${days.length + 1}`,
+        method: 'POST'
+      })
+      .then((dayFromServer) => {
+        console.log("day from server", dayFromServer)
+        addDay(dayFromServer);
+      })
+      .catch(console.error.bind(console));
+      });
     $removeButton.on('click', deleteCurrentDay);
   });
 
@@ -53,28 +64,15 @@ var tripModule = (function () {
   // ~~~~~~~~~~~~~~~~~~~~~~~
     // `addDay` may need to take information now that we can persist days -- we want to display what is being sent from the DB
   // ~~~~~~~~~~~~~~~~~~~~~~~
-  function addDay () {
+  function addDay (day) {
     if (this && this.blur) this.blur(); // removes focus box from buttons
-  var newDay = dayModule.create({ number: days.length + 1 });
-  var serverDay; // dayModule
-  var dude = this;
-    $.ajax({
-      url: `/api/days/${newDay.number}`,
-      method: 'POST'
-    })
-    .then((dayFromServer) => {
-      days.push(newDay);
+    var newDay = dayModule.create(day);//{ number: days.length + 1 }
+
+    days.push(newDay);
       if (days.length === 1) {
         currentDay = newDay;
       }
-      console.log("gabe: ",newDay)
-      switchTo(newDay);
-       newDay = dayFromServer;
-       console.log("database: ",dayFromServer)
-    })
-    .catch(console.error.bind(console));
-
-
+    switchTo(newDay);
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,23 +98,20 @@ var tripModule = (function () {
   var publicAPI = {
 
     load: function () {
+
       $.ajax({
          url: `/api/days/`,
          method: 'GET'
       })
       .then((days) => {
-
-      //  $(days);
-      //  $(days)
-        console.log("all the days ",days);
+        days.forEach((day) => addDay(day));
       })
-      //console.log(addDay)
-      //console.log($(addDay))
+
       // ~~~~~~~~~~~~~~~~~~~~~~~
         //If we are trying to load existing Days, then let's make a request to the server for the day.
         //Remember this is async. For each day we get back what do we need to do to it?
       // ~~~~~~~~~~~~~~~~~~~~~~~
-      $(addDay)
+     //$(addDay)
     },
 
     switchTo: switchTo,
