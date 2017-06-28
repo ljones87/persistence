@@ -8,7 +8,7 @@
  * that attraction's id. Selecting an option looks up the attraction by id,
  * then tells the trip module to add the attraction.
  */
- 
+
 $(function () {
 
     // jQuery selects
@@ -18,8 +18,21 @@ $(function () {
     var $activitySelect = $optionsPanel.find('#activity-choices');
 
   // ~~~~~~~~~~~~~~~~~~~~~~~
-    // This looks like a great place to start AJAX work with a request for all attractions. Don't forget that these kinds of requests are async, so we won't have all of the attractions until it comes back, but once it comes back we can make the option tags
+    // This looks like a great place to start AJAX work with a request for all attractions.
+    // Don't forget that these kinds of requests are async, so we won't have all of the attractions
+    // until it comes back, but once it comes back we can make the option tags
   // ~~~~~~~~~~~~~~~~~~~~~~~
+
+  $.ajax({
+   url: '/api/hotels',
+   method: 'GET'
+ }).then((hotelsFromServer)=>{
+   hotelsFromServer.forEach(makeOption, $hotelSelect);
+   attractionsModule.loadEnhancedAttractions('hotels', hotelsFromServer);
+ }).catch((err)=>{
+   console.log(err);
+ });
+
 
     // make all the option tags (second arg of `forEach` is a `this` binding)
     hotels.forEach(makeOption, $hotelSelect);
@@ -29,7 +42,7 @@ $(function () {
     // Once you've made AJAX calls to retrieve this information,
     // call attractions.loadEnhancedAttractions in the fashion
     // exampled below in order to integrate it.
-    attractionsModule.loadEnhancedAttractions('hotels', hotels);
+
     attractionsModule.loadEnhancedAttractions('restaurants', restaurants);
     attractionsModule.loadEnhancedAttractions('activities', activities);
 
